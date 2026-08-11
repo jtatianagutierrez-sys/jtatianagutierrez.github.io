@@ -8,7 +8,7 @@ set -euo pipefail
 
 REPO_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SRC_DIR="$REPO_ROOT/public-encrypted"
-BASE_URL="https://jtatianagutierrez-sys.github.io/jtatianagutierrez.github.io"
+BASE_URL="https://jtatianagutierrez-sys.github.io"
 
 if [ ! -f "$REPO_ROOT/.env" ]; then
   echo "ERROR: .env not found. It holds the master encryption secret." >&2

@@ -4,11 +4,13 @@ This repo is **public** and GitHub Pages serves it **from the root of `main`**.
 Anything committed here is live on the internet and indexable by Google.
 
 Live base URL:
-`https://jtatianagutierrez-sys.github.io/jtatianagutierrez.github.io/`
+`https://jtatianagutierrez-sys.github.io/`
 
-(It's a project page, not a user page, because the repo is named
-`jtatianagutierrez.github.io` but the account is `jtatianagutierrez-sys`. The
-owner and the repo name both appear in the path.)
+(The repo is named `jtatianagutierrez-sys.github.io`, matching the account name,
+which makes it a **user page** served straight off the domain root. It was
+renamed from `jtatianagutierrez.github.io` on 11 Aug 2026; the old project-page
+URLs that repeated the name in the path now 404. Nothing depended on them:
+Meta had already copied every ad image to its own CDN.)
 
 ## Where files go
 
