@@ -1,0 +1,33 @@
+#!/bin/bash
+# Pre-commit hook for the Pages repo.
+#   1. Refuses the commit if a secret file somehow got staged.
+#   2. Re-encrypts everything in public-encrypted/ and stages the locked output.
+#
+# Installed to .git/hooks/pre-commit. Keep this copy in scripts/ so it can be
+# reinstalled after a fresh clone:  cp scripts/pre-commit .git/hooks/ && chmod +x .git/hooks/pre-commit
+
+set -euo pipefail
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+
+# --- 1. Block secrets -------------------------------------------------------
+staged="$(git diff --cached --name-only --diff-filter=ACM)"
+if echo "$staged" | grep -qE '(^|/)\.env($|\.)|\.pem$|\.key$'; then
+  echo "COMMIT BLOCKED: a secret file is staged." >&2
+  echo "$staged" | grep -E '(^|/)\.env($|\.)|\.pem$|\.key$' >&2
+  echo "This repo is public. Unstage it with: git restore --staged <file>" >&2
+  exit 1
+fi
+
+# --- 2. Encrypt and stage ---------------------------------------------------
+SRC_DIR="$REPO_ROOT/public-encrypted"
+[ -d "$SRC_DIR" ] || exit 0
+find "$SRC_DIR" -type f -name '*.html' -print -quit | grep -q . || exit 0
+
+echo "Encrypting protected pages..."
+"$REPO_ROOT/scripts/encrypt.sh"
+
+while IFS= read -r -d '' src; do
+  rel="${src#"$SRC_DIR/"}"
+  [ -f "$REPO_ROOT/$rel" ] && git add "$REPO_ROOT/$rel"
+done < <(find "$SRC_DIR" -type f -name '*.html' -print0)

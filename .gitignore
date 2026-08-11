@@ -1,0 +1,26 @@
+# Secrets - never commit. This repo is PUBLIC.
+.env
+.env.*
+*.pem
+*.key
+
+# Encryption source files.
+# Pages serves this repo from the root, so anything committed here is live on
+# the internet. Sources must stay local (iCloud backs them up) - only the
+# encrypted output in the repo root gets committed and published.
+public-encrypted/
+
+# macOS junk
+.DS_Store
+._*
+.Spotlight-V100
+.Trashes
+
+# Editor / tooling
+node_modules/
+.staticrypt.json
+tmp/
+*.log
+
+# Office lock files
+~$*
